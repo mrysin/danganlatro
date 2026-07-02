@@ -50,10 +50,7 @@ SMODS.Joker{ --Alter Ego
         end
         target_joker = (my_pos and my_pos > 1) and G.jokers.cards[my_pos - 1] or nil
         
-        local ret = SMODS.blueprint_effect(card, target_joker, context)
-        if ret then
-            SMODS.calculate_effect(ret, card)
-        end
+        return SMODS.blueprint_effect(card, target_joker, context)
     end
 }
 

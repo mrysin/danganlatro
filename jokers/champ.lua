@@ -10,8 +10,8 @@ SMODS.Joker{ --Cham-P
     loc_txt = {
         ['name'] = 'Cham-P',
         ['text'] = {
-            [1] = '{C:blue}+300{} Chips',
-            [2] = '{C:red}dies{} at the {C:attention}end of round{}'
+            [1] = '{C:chips}+#1#{} Chips',
+            [2] = '{C:red}Destroyed{} at {C:attention}end of round{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -30,6 +30,14 @@ SMODS.Joker{ --Cham-P
     unlocked = true,
     discovered = true,    pools = { ["danganro_Hamster"] = true },
 
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra.chips0
+            }
+        }
+    end,
+
     in_pool = function(self, args)
         return false
     end,
@@ -40,10 +48,10 @@ SMODS.Joker{ --Cham-P
                 chips = card.ability.extra.chips0
             }
         end
-        if context.end_of_round and context.main_eval and not context.game_over then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.retrigger_joker then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    card:start_dissolve()
+                    danganro_destroy_joker(card)
                     return true
                 end
             }))

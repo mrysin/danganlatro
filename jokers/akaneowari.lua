@@ -3,13 +3,18 @@ SMODS.Joker{
     atlas = "akaneowari",
     pos = {x = 0, y = 0},
     blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
     soulable = false,
 
     cost = 8,
     rarity = 2,
     unlocked = true,
     discovered = true,
-    pools = { ["danganro_mycustom_jokers"] = true },    
+    pools = {
+        ["danganro_mycustom_jokers"] = true,
+        ["danganro_decreasing_jokers"] = true
+    },
 
     config = {
         extra = {
@@ -20,7 +25,10 @@ SMODS.Joker{
 
     loc_txt = {
         name = "Akane Owari",
-        text = {"{C:chips}+#1#{} chips,", "loses {C:chips}#2#{} every round"}
+        text = {
+            "{C:chips}+#1#{} Chips",
+            "Loses {C:chips}#2#{} Chips at {C:attention}end of round{}"
+        }
     },
 
     loc_vars = function (self, info_queue, card)
@@ -38,25 +46,29 @@ SMODS.Joker{
                 chips = card.ability.extra.chips
             }
         end
-        if context.end_of_round and context.main_eval and not context.game_over then
-            card.ability.extra.chips = math.max(0, card.ability.extra.chips - 100)
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
+            if danganro_decrease_blocked(card) then
+                return
+            end
+
+            card.ability.extra.chips = math.max(0, card.ability.extra.chips - card.ability.extra.decrement)
 
             if card.ability.extra.chips <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         return true
                     end
                 }))
 
                 return {
-                    message = "idk",
-                    color = G.C.GOLD
+                    message = "Left!",
+                    colour = G.C.GOLD
                 }
             end
 
             return {
-                message = "-100",
+                message = "-" .. card.ability.extra.decrement,
                 colour = G.C.CHIPS
             }
         end

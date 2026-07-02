@@ -2,15 +2,16 @@ SMODS.Joker{
     key = "kiyotakaishimaru",
     config = {
         extra = {
-            chips = 10
+            chips = 10,
+            gain = 20
         }
     },
 
     loc_txt = {
         name = "Kiyotaka Ishimaru",
         text = {
-            "{C:blue}+#1#{} Chips, increases by",
-            "{C:blue}+30{} every round"
+            "{C:chips}+#1#{} Chips",
+            "Gains {C:chips}+#2#{} Chips at {C:attention}end of round{}"
         },
         unlock = {
             "Unlocked by default."
@@ -36,7 +37,8 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
-                card.ability.extra.chips
+                card.ability.extra.chips,
+                card.ability.extra.gain
             }
         }
     end,
@@ -48,8 +50,8 @@ SMODS.Joker{
             }
         end
 
-        if context.end_of_round and context.main_eval then
-            card.ability.extra.chips = card.ability.extra.chips + 20
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker and not context.game_over then
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.gain
 
             return {
                 message = "Stronger!",

@@ -68,6 +68,8 @@ SMODS.Joker{ --Junk0 3nosh1ma
         if context.end_of_round
         and context.main_eval
         and not context.game_over
+        and not context.blueprint
+        and not context.retrigger_joker
         and not card.ability.eternal then
 
             if SMODS.pseudorandom_probability(
@@ -84,7 +86,7 @@ SMODS.Joker{ --Junk0 3nosh1ma
                     trigger = 'after',
                     delay = 0.4,
                     func = function()
-                        card:start_dissolve({G.C.RED})
+                        danganro_destroy_joker(card, {G.C.RED})
                         return true
                     end
                 }))

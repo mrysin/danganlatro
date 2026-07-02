@@ -12,8 +12,8 @@ SMODS.Joker{ --Byakuya Togami
     loc_txt = {
         ['name'] = 'Byakuya Togami',
         ['text'] = {
-            [1] = 'Gain {C:money}$#1#{} at the {C:attention}end of round{} for each',
-            [2] = 'empty {C:attention}Joker{} slot',
+            [1] = 'Earn {C:money}$#1#{} at {C:attention}end of round{}',
+            [2] = 'for each empty {C:attention}Joker{} slot',
             [3] = '{C:green}#2# in #3#{} chance to {C:attention}transform{}'
         },
         ['unlock'] = {
@@ -31,7 +31,8 @@ SMODS.Joker{ --Byakuya Togami
     eternal_compat = false,
     perishable_compat = true,
     unlocked = true,
-    discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
+    discovered = true,
+    pools = { ["danganro_mycustom_jokers"] = true },
     
     loc_vars = function(self, info_queue, card)
 
@@ -59,7 +60,7 @@ SMODS.Joker{ --Byakuya Togami
         if context.end_of_round and context.main_eval then
             local emptySlots = G.jokers.config.card_limit - #G.jokers.cards
 
-            if SMODS.pseudorandom_probability(
+            if not context.blueprint and not context.retrigger_joker and SMODS.pseudorandom_probability(
                 card,
                 'byakuya',
                 p,
@@ -70,7 +71,7 @@ SMODS.Joker{ --Byakuya Togami
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         card:start_dissolve()
-                        local joker_card = SMODS.add_card({ key = 'byakuyatogamievolved' })
+                        SMODS.add_card({ key = "j_danganro_byakuyatogamievolved" })
                         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                         return true
                     end
@@ -84,8 +85,6 @@ SMODS.Joker{ --Byakuya Togami
 
             return {
                 dollars = emptySlots * card.ability.extra.payout,
-                message = "$" .. (emptySlots * card.ability.extra.payout),
-                colour = G.C.MONEY
             }
         end
     end

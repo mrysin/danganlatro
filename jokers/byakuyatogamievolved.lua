@@ -10,8 +10,8 @@ SMODS.Joker{ --Byakuya Togami Evolved
     loc_txt = {
         ['name'] = 'Byakuya Togami Evolved',
         ['text'] = {
-            [1] = 'Gives {C:money}$#1#{} for',
-            [2] = 'each {C:attention}Joker{} at the {C:attention}end of round{}'
+            [1] = 'Earn {C:money}$#1#{} for each {C:attention}Joker{}',
+            [2] = 'at {C:attention}end of round{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'

@@ -10,9 +10,9 @@ SMODS.Joker{ --Mondo Owada
     loc_txt = {
         ['name'] = 'Mondo Owada',
         ['text'] = {
-            [1] = '{C:blue}+#1#{} Chips',
-            [2] = 'Loses {C:blue}#2#{} Chips at the {C:attention}end of round{},',
-            [3] = 'then {C:attention}doubles{} the loss each round'
+            [1] = '{C:chips}+#1#{} Chips',
+            [2] = 'Loses {C:chips}#2#{} Chips at {C:attention}end of round{},',
+            [3] = 'then {C:attention}doubles{} this value'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -26,10 +26,14 @@ SMODS.Joker{ --Mondo Owada
     cost = 4,
     rarity = 1,
     blueprint_compat = true,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     unlocked = true,
-    discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
+    discovered = true,
+    pools = {
+        ["danganro_mycustom_jokers"] = true,
+        ["danganro_decreasing_jokers"] = true
+    },
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -47,7 +51,11 @@ SMODS.Joker{ --Mondo Owada
             }
         end
 
-        if context.end_of_round and context.game_over == false and context.main_eval then
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint and not context.retrigger_joker then
+            if danganro_decrease_blocked(card) then
+                return
+            end
+
             card.ability.extra.chips = math.max(
                 0,
                 card.ability.extra.chips - card.ability.extra.decrement
@@ -56,7 +64,7 @@ SMODS.Joker{ --Mondo Owada
             if card.ability.extra.chips <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         return true
                     end
                 }))

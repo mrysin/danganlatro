@@ -10,8 +10,8 @@ SMODS.Joker{ --Hifumi Yamada
     loc_txt = {
         ['name'] = 'Hifumi Yamada',
         ['text'] = {
-            [1] = 'Retrigger scored',
-            [2] = '{C:attention}Queens 2{} times'
+            [1] = 'Retrigger each scored',
+            [2] = '{C:attention}Queen{} {C:attention}#1#{} additional times'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -29,12 +29,20 @@ SMODS.Joker{ --Hifumi Yamada
     perishable_compat = true,
     unlocked = true,
     discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra.repetitions0
+            }
+        }
+    end,
     
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.play  then
             if context.other_card:get_id() == 12 then
                 return {
-                    repetitions = 2,
+                    repetitions = card.ability.extra.repetitions0,
                     message = localize('k_again_ex')
                 }
             end

@@ -11,7 +11,7 @@ SMODS.Joker{ --Maga-Z
         ['name'] = 'Maga-Z',
         ['text'] = {
             [1] = '{X:red,C:white}X#1#{} Mult,',
-            [2] = '{C:red}dies{} at the {C:attention}end of round{}',
+            [2] = '{C:red}Destroyed{} at {C:attention}end of round{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -51,10 +51,10 @@ SMODS.Joker{ --Maga-Z
                 x_mult = card.ability.extra.xmult
             }
         end
-        if context.end_of_round and context.main_eval and not context.game_over then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.retrigger_joker then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    card:start_dissolve()
+                    danganro_destroy_joker(card)
                     return true
                 end
             }))

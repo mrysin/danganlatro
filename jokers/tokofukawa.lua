@@ -5,7 +5,6 @@ SMODS.Joker{ --Toko Fukawa
     config = {
         extra = {
             mult0 = -10,
-            chance = 1,
             odds = 4
         }
     },
@@ -54,7 +53,7 @@ SMODS.Joker{ --Toko Fukawa
                 mult = card.ability.extra.mult0
             }
         end
-        if context.end_of_round and context.game_over == false and context.main_eval then
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(
                 card,
                 'tokofukawa',
@@ -65,7 +64,7 @@ SMODS.Joker{ --Toko Fukawa
                 G.GAME.joker_buffer = G.GAME.joker_buffer + 1
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         SMODS.add_card({key = "j_danganro_genocidejack"})
                         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                         return true

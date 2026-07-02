@@ -26,6 +26,22 @@ SMODS.Atlas({
 local NFS = require("nativefs")
 to_big = to_big or function(a) return a end
 lenient_bignum = lenient_bignum or function(a) return a end
+
+function danganro_destroy_joker(card, colours)
+    local flags = SMODS.calculate_context({
+        joker_type_destroyed = true,
+        card = card
+    })
+
+    if flags.no_destroy then
+        card.getting_sliced = nil
+        return false
+    end
+
+    card:start_dissolve(colours)
+    return true
+end
+
 -- this function is used to load everything within a folder.-- Jokerforge doesnt use it because it doesnt make loading order easy
 local function load_folder(path)
     local files = NFS.getDirectoryItemsInfo(mod_path .. "/" .. path)
@@ -39,6 +55,7 @@ end
 -- load the jokers
 if true then
     assert(SMODS.load_file("jokers/byakuyatogami.lua"))()
+    assert(SMODS.load_file("jokers/byakuyatogam1.lua"))()
     assert(SMODS.load_file("jokers/aoiasahina.lua"))()
     assert(SMODS.load_file("jokers/celestialudenberg.lua"))()
     assert(SMODS.load_file("jokers/chihirofujisaki.lua"))()
@@ -65,6 +82,20 @@ if true then
     assert(SMODS.load_file("jokers/gundhamtanaka.lua"))()
     assert(SMODS.load_file("jokers/makotonaegi.lua"))()
     assert(SMODS.load_file("jokers/akaneowari.lua"))()
+    assert(SMODS.load_file("jokers/chiakinanami.lua"))()
+    assert(SMODS.load_file("jokers/hajimehinata.lua"))()
+    assert(SMODS.load_file("jokers/izurukamakura.lua"))()
+    assert(SMODS.load_file("jokers/hiyokosaionji.lua"))()
+    assert(SMODS.load_file("jokers/fuyohikokuzuryu.lua"))()
+    assert(SMODS.load_file("jokers/fuy0hik0kuzuryu.lua"))()
+    assert(SMODS.load_file("jokers/mahirukoizumi.lua"))()
+    assert(SMODS.load_file("jokers/mikantsumiki.lua"))()
+    assert(SMODS.load_file("jokers/nagitokomaeda.lua"))()
+    assert(SMODS.load_file("jokers/nekomarunidai.lua"))()
+    assert(SMODS.load_file("jokers/mechamaru.lua"))()
+    assert(SMODS.load_file("jokers/pekopekoyama.lua"))()
+    assert(SMODS.load_file("jokers/sonianevermind.lua"))()
+    assert(SMODS.load_file("jokers/teruteruhanamura.lua"))()
     assert(SMODS.load_file("atlases.lua"))()
 end
 function SMODS.current_mod.reset_game_globals(run_start)
@@ -97,6 +128,7 @@ SMODS.ObjectType({
     key = "danganro_mycustom_jokers",
     cards = {
         ["j_danganro_byakuyatogami"] = true,
+        ["j_danganro_byakuyatogam1"] = true,
         ["j_danganro_aoiasahina"] = true,
         ["j_danganro_celestialudenberg"] = true,
         ["j_danganro_chihirofujisaki"] = true,
@@ -110,7 +142,22 @@ SMODS.ObjectType({
         ["j_danganro_kiyondoishida"] = true,
         ["j_danganro_mondoowada"] = true,
         ["j_danganro_leonkuwata"] = true,
-        ["j_danganro_kyokokirigiri"] = true
+        ["j_danganro_kyokokirigiri"] = true,
+        ["j_danganro_akaneowari"] = true,
+        ["j_danganro_chiakinanami"] = true,
+        ["j_danganro_hajimehinata"] = true,
+        ["j_danganro_izurukamakura"] = true,
+        ["j_danganro_hiyokosaionji"] = true,
+        ["j_danganro_fuyohikokuzuryu"] = true,
+        ["j_danganro_fuy0hik0kuzuryu"] = true,
+        ["j_danganro_mahirukoizumi"] = true,
+        ["j_danganro_mikantsumiki"] = true,
+        ["j_danganro_nagitokomaeda"] = true,
+        ["j_danganro_nekomarunidai"] = true,
+        ["j_danganro_mechamaru"] = true,
+        ["j_danganro_pekopekoyama"] = true,
+        ["j_danganro_sonianevermind"] = true,
+        ["j_danganro_teruteruhanamura"] = true
     },
 })
 
@@ -137,9 +184,20 @@ SMODS.ObjectType({
     },
 })
 
+SMODS.ObjectType({
+    key = "danganro_decreasing_jokers",
+    cards = {
+        ["j_danganro_akaneowari"] = true,
+        ["j_danganro_aoiasahina"] = true,
+        ["j_danganro_mondoowada"] = true
+    },
+})
+
 
 SMODS.current_mod.optional_features = function()
     return {
-        cardareas = {} 
+        cardareas = {},
+        retrigger_joker = true,
+        post_trigger = true
     }
 end

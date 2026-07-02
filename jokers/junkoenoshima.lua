@@ -9,10 +9,10 @@ SMODS.Joker{ --Junko Enoshima
     loc_txt = {
         ['name'] = 'Junko Enoshima',
         ['text'] = {
-            [1] = 'Copies the ability of the {C:attention}Joker{}',
-            [2] = 'to the {C:attention}right{} and {C:attention}left{}.',
+            [1] = 'Copies the abilities of adjacent',
+            [2] = '{C:attention}Jokers{}',
             [3] = '{C:red}Destroys{} a random {C:attention}Joker{}',
-            [4] = 'at the {C:attention}end of round{}'
+            [4] = 'at {C:attention}end of round{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -32,7 +32,7 @@ SMODS.Joker{ --Junko Enoshima
     discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
 
     calculate = function(self, card, context)
-        
+        local effects = {}
         local my_pos = nil
 
         for i, joker in ipairs(G.jokers.cards) do
@@ -42,22 +42,22 @@ SMODS.Joker{ --Junko Enoshima
             end
         end
 
-        local function copy_joker(target)
+        local function add_copy_effect(target)
             if target and target ~= card then
                 local ret = SMODS.blueprint_effect(card, target, context)
                 if ret then
-                    SMODS.calculate_effect(ret, card)
+                    table.insert(effects, ret)
                 end
             end
         end
 
         if my_pos then
-            copy_joker(G.jokers.cards[my_pos - 1])
-            copy_joker(G.jokers.cards[my_pos + 1])
+            add_copy_effect(G.jokers.cards[my_pos - 1])
+            add_copy_effect(G.jokers.cards[my_pos + 1])
         end
 
 
-        if context.end_of_round and context.main_eval and not context.game_over then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.retrigger_joker then
             local destroyable = {}
 
             for _, joker in ipairs(G.jokers.cards) do
@@ -76,19 +76,23 @@ SMODS.Joker{ --Junko Enoshima
 
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        randomjoker:start_dissolve({G.C.RED})
+                        danganro_destroy_joker(randomjoker, {G.C.RED})
                         return true
                     end
                 }))
 
-                return {
+                table.insert(effects, {
                     message = localize{
                         type = "name_text",
                         key = randomjoker.config.center.key
                     } .. " Executed!",
                     colour = G.C.RED
-                }
+                })
             end
+        end
+
+        if #effects > 0 then
+            return SMODS.merge_effects(effects)
         end
     end
 }

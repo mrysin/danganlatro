@@ -11,8 +11,8 @@ SMODS.Joker{
     loc_txt = {
         name = 'Genocide Jack',
         text = {
-            'Retrigger {C:attention}played and held-in-hand{} Jacks',
-            '{C:attention}#1#{} additional times'
+            'Retrigger each played or held',
+            '{C:attention}Jack{} {C:attention}#1#{} additional times'
         }
     },
 
@@ -23,8 +23,11 @@ SMODS.Joker{
     rarity = 4,
 
     blueprint_compat = true,
-    eternal_compat = false,
-    perishable_compat = false,    pools = {
+    eternal_compat = true,
+    perishable_compat = true,
+    unlocked = true,
+    discovered = true,
+    pools = {
         ["danganro_danganro_jokers"] = true
     },
 

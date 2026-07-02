@@ -11,9 +11,9 @@ SMODS.Joker{ --Kyoko Kirigiri
     loc_txt = {
         ['name'] = 'Kyoko Kirigiri',
         ['text'] = {
-            [1] = 'For every {C:attention}8{} {C:attention}Jokers{} sold {C:inactive}[#1#]{}',
-            [2] = 'Gain {X:red,C:white}X0.5{} Mult', 
-            [3] = 'Currently {X:red,C:white}X#2#{} Mult'
+            [1] = 'Gains {X:red,C:white}X0.5{} Mult for every',
+            [2] = '{C:attention}8 Jokers{} sold {C:inactive}(#1#/8){}',
+            [3] = '{C:inactive}(Currently {X:red,C:white}X#2#{} {C:inactive}Mult){}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -38,7 +38,7 @@ SMODS.Joker{ --Kyoko Kirigiri
     end,
     
     calculate = function(self, card, context)
-        if context.selling_card then
+        if context.selling_card and not context.blueprint and not context.retrigger_joker then
             card.ability.extra.counter = card.ability.extra.counter + 1
 
             if card.ability.extra.counter >= 8 then

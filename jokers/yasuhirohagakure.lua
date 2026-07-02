@@ -7,7 +7,8 @@ SMODS.Joker{ --Yasuhiro Hagakure
     loc_txt = {
         ['name'] = 'Yasuhiro Hagakure',
         ['text'] = {
-            [1] = '{C:attention}Triples{} all {C:green}probabilities{}'
+            [1] = '{C:attention}Triples{} all listed',
+            [2] = '{C:green,E:1}probabilities{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'

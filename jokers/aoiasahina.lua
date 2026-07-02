@@ -4,14 +4,15 @@ SMODS.Joker{ --Aoi Asahina
     atlas = "aoiasahina",
     config = {
         extra = {
-            Aoi = 100
+            mult = 100,
+            decrement = 10
         }
     },
     loc_txt = {
         ['name'] = 'Aoi Asahina',
         ['text'] = {
-            [1] = '{C:mult}+#1#{} Mult, reduces',
-            [2] = 'by {C:mult}10{} every round'
+            [1] = '{C:mult}+#1#{} Mult',
+            [2] = 'Loses {C:mult}#2#{} Mult at {C:attention}end of round{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -25,28 +26,41 @@ SMODS.Joker{ --Aoi Asahina
     cost = 5,
     rarity = 2,
     blueprint_compat = true,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     unlocked = true,
-    discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
+    discovered = true,
+    pools = {
+        ["danganro_mycustom_jokers"] = true,
+        ["danganro_decreasing_jokers"] = true
+    },
     
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Aoi}}
+        return {
+            vars = {
+                card.ability.extra.mult,
+                card.ability.extra.decrement
+            }
+        }
     end,
     
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.joker_main  then
             return {
-                mult = card.ability.extra.Aoi
+                mult = card.ability.extra.mult
             }
         end
-        if context.end_of_round and context.main_eval then
-            card.ability.extra.Aoi = math.max(0, card.ability.extra.Aoi - 10)
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+            if danganro_decrease_blocked(card) then
+                return
+            end
 
-            if card.ability.extra.Aoi <= 0 then
+            card.ability.extra.mult = math.max(0, card.ability.extra.mult - card.ability.extra.decrement)
+
+            if card.ability.extra.mult <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         return true
                     end
                 }))
@@ -58,7 +72,7 @@ SMODS.Joker{ --Aoi Asahina
             end
 
             return {
-                message = "-10",
+                message = "-" .. card.ability.extra.decrement,
                 colour = G.C.MULT
             }
         end

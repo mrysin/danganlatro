@@ -9,9 +9,9 @@ SMODS.Joker{ --Gundham Tanaka
     loc_txt = {
         ['name'] = 'Gundham Tanaka',
         ['text'] = {
-            [1] = 'Summons {C:attention}1{} of the {C:dark_edition}Four{}',
-            [2] = '{C:dark_edition}Dark Devas of Destruction{}',
-            [3] = 'when {C:attention}blind{} is selected'
+            [1] = 'Creates a random {C:dark_edition}Dark Deva{}',
+            [2] = 'when {C:attention}Blind{} is selected',
+            [3] = '{C:inactive}(Must have room){}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'

@@ -101,7 +101,7 @@ SMODS.Atlas{
     py = 1615
 }
 SMODS.Atlas{
-    key = "hiyokosayanji",
+    key = "hiyokosaionji",
     path = "Jokers/hiyokosayanji.png",
     px = 1207,
     py = 1615

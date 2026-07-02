@@ -5,17 +5,16 @@ SMODS.Joker{ --Sakura Ogami
     config = {
         extra = {
             xmult = 2,
-            chance = 1,
-            success = 10
+            odds = 10
         }
     },
     loc_txt = {
         ['name'] = 'Sakura Ogami',
         ['text'] = {
             [1] = '{X:red,C:white}X#1#{} Mult',
-            [2] = '{C:green}#2# in #3#{} chance to {C:red}die{} and {C:attention}generate{} an',
-            [3] = '{C:enhanced}Enhanced{}, {C:dark_edition}Editioned{}, and {C:attention}Sealed{}',
-            [4] = '{C:attention}Ace{}, {C:attention}Queen{} and {C:attention}Jack{}'
+            [2] = '{C:green}#2# in #3#{} chance to be {C:red}destroyed{}',
+            [3] = 'at {C:attention}end of round{} and create an enhanced,',
+            [4] = 'editioned, and sealed {C:attention}Ace{}, {C:attention}Queen{}, and {C:attention}Jack{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -40,7 +39,7 @@ SMODS.Joker{ --Sakura Ogami
         local num, den = SMODS.get_probability_vars(
             card,
             p,
-            card.ability.extra.success,
+            card.ability.extra.odds,
             'j_danganro_sakuraogami'
         )
 
@@ -60,12 +59,12 @@ SMODS.Joker{ --Sakura Ogami
                 Xmult = card.ability.extra.xmult
             }
         end
-        if context.end_of_round and context.main_eval and not context.game_over then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(
                 card,
                 'sakuraogami',
                 p,
-                card.ability.extra.success,
+                card.ability.extra.odds,
                 'j_danganro_sakuraogami'
             ) then
                 create_random_card("A")
@@ -73,7 +72,7 @@ SMODS.Joker{ --Sakura Ogami
                 create_random_card("J")
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         return true
                     end
                 }))

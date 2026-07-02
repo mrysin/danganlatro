@@ -11,8 +11,8 @@ SMODS.Joker{ --Mukuro Ikusaba
     loc_txt = {
         ['name'] = 'Mukuro Ikusaba',
         ['text'] = {
-            [1] = '{C:red}+20{} Mult',
-            [2] = '{C:blue}+150{} Chips'
+            [1] = '{C:mult}+#1#{} Mult',
+            [2] = '{C:chips}+#2#{} Chips'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'

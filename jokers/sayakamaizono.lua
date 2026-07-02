@@ -12,9 +12,9 @@ SMODS.Joker{ --Sayaka Maizono
     loc_txt = {
         ['name'] = 'Sayaka Maizono',
         ['text'] = {
-            [1] = '{C:attention}+1 card slot{} and {C:attention}+1 booster slot{}',
-            [2] = 'in the {C:attention}Shop{}, and a {C:attention}10% price',
-            [3] = 'reduction{} on all {C:attention}Shop items{}'
+            [1] = '{C:attention}+1{} card slot and {C:attention}+1{} Booster slot',
+            [2] = 'in the {C:attention}shop{}',
+            [3] = 'All shop items are {C:money}10%{} cheaper'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -27,7 +27,7 @@ SMODS.Joker{ --Sayaka Maizono
     },
     cost = 5,
     rarity = 2,
-    blueprint_compat = true,
+    blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = true,
     unlocked = true,

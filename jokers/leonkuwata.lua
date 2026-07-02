@@ -11,7 +11,7 @@ SMODS.Joker{ --Leon Kuwata
     loc_txt = {
         ['name'] = 'Leon Kuwata',
         ['text'] = {
-            [1] = '{C:red}+1{} Mult',
+            [1] = '{C:mult}+1{} Mult',
             [2] = '{C:attention}Again{}, and {C:attention}again{},',
             [3] = 'and {C:attention}again{}, and {C:attention}again{}, and {C:attention}again{},',
             [4] = 'and {C:attention}again{}, and {C:attention}again{}, and {C:attention}again{},',
@@ -34,14 +34,18 @@ SMODS.Joker{ --Leon Kuwata
     perishable_compat = true,
     unlocked = true,
     discovered = true,    pools = { ["danganro_mycustom_jokers"] = true },
-    
+
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.joker_main  then
-            if true then
-                for i = 1, 15 do
-                    SMODS.calculate_effect({mult = 1}, card)
-                end
+        if context.joker_main then
+            local effects = {}
+
+            for i = 1, card.ability.extra.repetitions do
+                table.insert(effects, {
+                    mult = card.ability.extra.mult
+                })
             end
+
+            return SMODS.merge_effects(effects)
         end
     end
 }

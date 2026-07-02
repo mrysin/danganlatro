@@ -15,8 +15,9 @@ SMODS.Joker{ --Celestia Ludenberg
     loc_txt = {
         ['name'] = 'Celestia Ludenberg',
         ['text'] = {
-            [1] = "Each scored {C:attention}card{} gives either:",
-            [2] = "{C:mult}+#1#-#2#{} Mult, {C:money}$#3#-#4#{}, or {C:chips}+#5#-#6#{} chips"
+            [1] = "Each scored {C:attention}card{} gives either",
+            [2] = "{C:mult}+#1#-#2#{} Mult, {C:money}$#3#-#4#{},",
+            [3] = "or {C:chips}+#5#-#6#{} Chips"
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -81,10 +82,8 @@ SMODS.Joker{ --Celestia Ludenberg
                     card.ability.extra.moneymax
                 )
 
-                ease_dollars(money)
-
                 return {
-                    message = "$" .. money,
+                    dollars = money,
                     colour = G.C.MONEY
                 }
 

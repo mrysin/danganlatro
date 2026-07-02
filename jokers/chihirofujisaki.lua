@@ -5,7 +5,6 @@ SMODS.Joker{ --Chihiro Fujisaki
     config = {
         extra = {
             xmult0 = 2,
-            success = 1,
             chance = 4
         }
     },
@@ -73,6 +72,7 @@ SMODS.Joker{ --Chihiro Fujisaki
         if context.end_of_round
         and context.main_eval
         and not context.blueprint
+        and not context.retrigger_joker
         and not context.game_over then
 
             if SMODS.pseudorandom_probability(
@@ -85,7 +85,7 @@ SMODS.Joker{ --Chihiro Fujisaki
 
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:start_dissolve()
+                        danganro_destroy_joker(card)
                         return true
                     end
                 }))
