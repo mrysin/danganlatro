@@ -1,3 +1,7 @@
+function danganro_decrease_blocked(card)
+    return next(SMODS.find_card("j_danganro_teruteruhanamura")) ~= nil
+end
+
 SMODS.Joker{
     key = "teruteruhanamura",
     atlas = "teruteruhanamura",

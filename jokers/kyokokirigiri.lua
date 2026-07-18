@@ -11,7 +11,7 @@ SMODS.Joker{ --Kyoko Kirigiri
     loc_txt = {
         ['name'] = 'Kyoko Kirigiri',
         ['text'] = {
-            [1] = 'Gains {X:red,C:white}X0.5{} Mult for every',
+            [1] = 'Gains {X:red,C:white}X0.75{} Mult for every',
             [2] = '{C:attention}8 Jokers{} sold {C:inactive}(#1#/8){}',
             [3] = '{C:inactive}(Currently {X:red,C:white}X#2#{} {C:inactive}Mult){}'
         },
@@ -43,10 +43,10 @@ SMODS.Joker{ --Kyoko Kirigiri
 
             if card.ability.extra.counter >= 8 then
                 card.ability.extra.counter = 0
-                card.ability.extra.Xmult = card.ability.extra.Xmult + 0.5
+                card.ability.extra.Xmult = card.ability.extra.Xmult + 0.75
 
                 return {
-                    message = card.ability.extra.Xmult,
+                    message = toString(card.ability.extra.Xmult),
                     colour = G.C.MULT
                 }
             end
