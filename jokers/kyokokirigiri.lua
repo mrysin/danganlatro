@@ -46,7 +46,7 @@ SMODS.Joker{ --Kyoko Kirigiri
                 card.ability.extra.Xmult = card.ability.extra.Xmult + 0.75
 
                 return {
-                    message = toString(card.ability.extra.Xmult),
+                    message = "X" .. tostring(card.ability.extra.Xmult) .. " Mult",
                     colour = G.C.MULT
                 }
             end
@@ -58,5 +58,3 @@ SMODS.Joker{ --Kyoko Kirigiri
         end
     end
 }
-
-

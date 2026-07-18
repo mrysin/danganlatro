@@ -18,7 +18,7 @@ SMODS.Joker{
     },
 
     loc_txt = {
-        name = "Byakuya Togami 1",
+        name = "Byakuya Togami (1)",
         text = {
             "Copies ability of {C:attention}Joker{} to the right",
             "Locks onto that Joker when first triggered",

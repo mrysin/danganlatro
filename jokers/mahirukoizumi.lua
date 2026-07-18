@@ -2,8 +2,8 @@ SMODS.Joker{
     key = "mahirukoizumi",
     atlas = "mahirukoizumi",
     pos = {x = 0, y = 0},
-    cost = 0,
-    rarity = 1,
+    cost = 9,
+    rarity = 3,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -35,7 +35,9 @@ SMODS.Joker{
             local changed = false
 
             for _, playing_card in ipairs(context.scoring_hand) do
-                if playing_card:is_face() then
+                if playing_card:is_face()
+                and not next(SMODS.get_enhancements(playing_card))
+                and not playing_card.seal then
                     playing_card:set_ability(
                         pseudorandom_element(enhancements, pseudoseed("mahiru_enhancement"))
                     )

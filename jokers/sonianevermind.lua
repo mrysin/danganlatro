@@ -37,19 +37,20 @@ SMODS.Joker{
     end,
 
     calculate = function(self, card, context)
-        if context.remove_playing_cards then
+        if context.remove_playing_cards and not context.blueprint and not context.retrigger_joker then
             for _, c in ipairs(context.removed) do
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.gain
             end
         end
-        if context.destroying_cards then
-            for _, c in ipairs(context.destroyed) do
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.gain
-            end
+        if context.joker_type_destroyed
+        and context.card ~= card
+        and not context.blueprint
+        and not context.retrigger_joker then
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.gain
         end
         if context.joker_main then
             return {
-                mult = card.ability.extra.xmult
+                x_mult = card.ability.extra.xmult
             }
         end
     end

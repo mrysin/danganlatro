@@ -2,7 +2,7 @@ SMODS.Joker{
     key = "fuyohikokuzuryu",
     atlas = "fuyohikokuzuryu",
     pos = {x = 0, y = 0},
-    cost = 0,
+    cost = 5,
     rarity = 1,
     blueprint_compat = true,
     eternal_compat = false,

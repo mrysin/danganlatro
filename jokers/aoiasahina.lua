@@ -50,7 +50,7 @@ SMODS.Joker{ --Aoi Asahina
                 mult = card.ability.extra.mult
             }
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if danganro_decrease_blocked(card) then
                 return
             end
@@ -78,5 +78,4 @@ SMODS.Joker{ --Aoi Asahina
         end
     end
 }
-
 

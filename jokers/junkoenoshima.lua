@@ -81,11 +81,20 @@ SMODS.Joker{ --Junko Enoshima
                     end
                 }))
 
+                local executed_name = localize{
+                    type = "name_text",
+                    set = randomjoker.config.center.set or "Joker",
+                    key = randomjoker.config.center.key
+                }
+
+                if executed_name == "ERROR" then
+                    executed_name = randomjoker.ability.name
+                        or randomjoker.config.center.name
+                        or "Joker"
+                end
+
                 table.insert(effects, {
-                    message = localize{
-                        type = "name_text",
-                        key = randomjoker.config.center.key
-                    } .. " Executed!",
+                    message = executed_name .. " Executed!",
                     colour = G.C.RED
                 })
             end
@@ -96,5 +105,4 @@ SMODS.Joker{ --Junko Enoshima
         end
     end
 }
-
 
