@@ -96,6 +96,10 @@ if true then
     assert(SMODS.load_file("jokers/pekopekoyama.lua"))()
     assert(SMODS.load_file("jokers/sonianevermind.lua"))()
     assert(SMODS.load_file("jokers/teruteruhanamura.lua"))()
+    assert(SMODS.load_file("jokers/ultimateimposter.lua"))()
+    assert(SMODS.load_file("decks/despairdeck.lua"))()
+    assert(SMODS.load_file("decks/hopedeck.lua"))()
+    assert(SMODS.load_file("decks/monokumadeck.lua"))()
     assert(SMODS.load_file("atlases.lua"))()
 end
 function SMODS.current_mod.reset_game_globals(run_start)

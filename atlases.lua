@@ -318,3 +318,24 @@ danganro_joker_atlas{
     px = 1207,
     py = 1615
 }
+
+danganro_joker_atlas{
+    key = "despairdeck",
+    path = "Decks/DespairDeck.png",
+    px = 1207,
+    py = 1615
+}
+
+danganro_joker_atlas{
+    key = "hopedeck",
+    path = "Decks/HopeDeck.png",
+    px = 1207,
+    py = 1615
+}
+
+danganro_joker_atlas{
+    key = "monokumadeck",
+    path = "Decks/MonokumaDeck.png",
+    px = 1207,
+    py = 1615
+}

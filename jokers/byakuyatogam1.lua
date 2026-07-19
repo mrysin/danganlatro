@@ -1,47 +1,91 @@
-SMODS.Joker{
+
+SMODS.Joker{ --Byakuya Togami (1)
     key = "byakuyatogam1",
     atlas = "byakuyatogam1",
+    config = {
+        extra = {
+            freejokerslots = 0,
+            payout = 4,
+            chance = 5
+        }
+    },
+    loc_txt = {
+        ['name'] = 'Byakuya Togami (1)',
+        ['text'] = {
+            [1] = 'Earn {C:money}$#1#{} at {C:attention}end of round{}',
+            [2] = 'for each empty {C:attention}Joker{} slot',
+            [3] = '{C:green}#2# in #3#{} chance to {C:attention}transform{}'
+        },
+        ['unlock'] = {
+            [1] = 'Unlocked by default.'
+        }
+    },
     pos = {x = 0, y = 0},
-    cost = 10,
-    rarity = 3,
+    display_size = {
+        w = 71 * 1,
+        h = 95 * 1
+    },
+    cost = 6,
+    rarity = 1,
     blueprint_compat = true,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     unlocked = true,
     discovered = true,
     pools = { ["danganro_mycustom_jokers"] = true },
 
-    config = {
-        extra = {
-            target_id = nil
+    loc_vars = function(self, info_queue, card)
+
+        local p = G.GAME and G.GAME.probabilities and G.GAME.probabilities.normal or 1
+
+        local num, den = SMODS.get_probability_vars(
+            card,
+            p,
+            card.ability.extra.chance,
+            'j_danganro_byakuyatogami'
+        )
+
+        return {
+            vars = {
+                card.ability.extra.payout,
+                num,
+                den
+            }
         }
-    },
+    end,
 
-    loc_txt = {
-        name = "Byakuya Togami (1)",
-        text = {
-            "Copies ability of {C:attention}Joker{} to the right",
-            "Locks onto that Joker when first triggered",
-            "{C:inactive}(Target cannot be changed){}"
-        }
-    },
+    calculate = function(self,card, context)
+        local p = G.GAME and G.GAME.probabilities and G.GAME.probabilities.normal or 1
 
-    calculate = function(self, card, context)
-        if not card.ability.extra.target_id then
-            for i, joker in ipairs(G.jokers.cards) do
-                if joker == card and G.jokers.cards[i + 1] then
-                    card.ability.extra.target_id = G.jokers.cards[i + 1].sort_id
-                    break
-                end
+        if context.end_of_round and context.main_eval then
+            local emptySlots = G.jokers.config.card_limit - #G.jokers.cards
+
+            if not context.blueprint and not context.retrigger_joker and SMODS.pseudorandom_probability(
+                card,
+                'byakuya',
+                p,
+                card.ability.extra.chance,
+                'j_danganro_byakuyatogami'
+            ) then
+                G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:start_dissolve()
+                        SMODS.add_card({ key = "j_danganro_ultimateimposter" })
+                        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+                        return true
+                    end
+                }))
+
+                return {
+                    message = "realized...",
+                    colour = G.C.GOLD
+                }
             end
-        end
 
-        if card.ability.extra.target_id then
-            for _, joker in ipairs(G.jokers.cards) do
-                if joker.sort_id == card.ability.extra.target_id then
-                    return SMODS.blueprint_effect(card, joker, context)
-                end
-            end
+            return {
+                dollars = emptySlots * card.ability.extra.payout,
+            }
         end
     end
 }
